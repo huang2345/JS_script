@@ -38,10 +38,9 @@
       }
       if (tempLinkText && tempLinkText.match(reg1)) {
         code = tempLinkText.match(reg1)[1];
-        if(code)
-        {
-            console.log('code未加载');
-            return false;
+        if (code) {
+          console.log("code未加载");
+          return false;
         }
         console.log("找到提取码", code);
       }
