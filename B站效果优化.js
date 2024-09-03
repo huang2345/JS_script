@@ -4,6 +4,8 @@
 // @version      2.0
 // @description  try to take over the world!
 // @author       O.k
+// @license      MIT
+
 // @match        https://t.bilibili.com/?tab=*
 // @match        https://t.bilibili.com/*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
