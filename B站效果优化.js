@@ -279,7 +279,9 @@
           item.addEventListener("mouseover", (e) => {
             //保存当前悬浮的视频的稍后再看按钮
             see_later = item.querySelector(".bili-dyn-card-video__mark");
-            like_button = item.querySelector(".like");
+            like_button = item
+              .querySelector(".bili-dyn-item__footer")
+              .querySelector(".like");
             document.body.addEventListener("keydown", hoverAndCtrlEvent);
             document.body.addEventListener("keydown", like);
           });
