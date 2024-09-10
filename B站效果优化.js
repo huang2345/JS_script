@@ -2,7 +2,7 @@
 // @name         优化B站效果
 // @namespace    http://tampermonkey.net/
 // @version      2.2
-// @description  try to take over the world!
+// @description  优化B站动态页效果
 // @author       O.k
 // @license      MIT
 
