@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         优化B站效果
 // @namespace    http://tampermonkey.net/
-// @version      2.0
+// @version      2.2
 // @description  try to take over the world!
 // @author       O.k
 // @license      MIT
