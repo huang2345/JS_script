@@ -220,6 +220,7 @@
       }
       canvas.addEventListener("mouseout", mouseoutEvent);
       canvas.addEventListener("click", (e) => {
+        canvas.removeEventListener("mouseout", mouseoutEvent);
         ctx.fillStyle = "#00a1d6";
         requestAnimationFrame(clickAnimeFunction);
         like_button.click();
@@ -233,6 +234,7 @@
           animeTime = 0;
           //   canvas.addEventListener("mouseout", mouseoutEvent);
           console.log("anime end");
+          canvas.addEventListener("mouseout", mouseoutEvent);
           return;
         }
         ctx.fillRect(0, canvas.height - 10 - animeTime, canvas.width, 3);
@@ -260,12 +262,13 @@
     positionNode.appendChild(newVideoTime);
   }
   setInterval(() => {
-    let video = document.querySelectorAll(".bili-dyn-list__item");
+    let video = document.querySelector(".bili-dyn-list__items").children;
     if (video.length > 0) {
       videoList = video;
       videoList.forEach((item) => {
         //通过querySelector确认有没有超链接标签<a>，过滤非视频的动态
         if (
+          item.querySelector(".bili-dyn-content__orig__major") == null ||
           item
             .querySelector(".bili-dyn-content__orig__major")
             .querySelector("a") == null
