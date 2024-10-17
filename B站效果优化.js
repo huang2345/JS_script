@@ -58,6 +58,7 @@
   //.bili-dyn-card-video__desc
   let fontStyle = document.createElement("style");
   //paratext:副文本
+  //增加两个CSS动画，用于移动背景图
   let fontStyleString =
     `:root{\n
     --body-text: 18px;\n
@@ -68,6 +69,22 @@
 }\n` +
     `.bili-dyn-interaction__item__desc,.bili-dyn-card-video__desc{\n
     font-size: var(--paratext) !important;\n
+}\n`;
+  let cssAnime = `@keyframes imageUp{\n
+    from{\n
+        background-position-y: var(--image-now-position);\n
+    }\n
+    to{\n
+        background-position-y: 0px\n
+    }\n
+}\n
+@keyframes imageDown{\n
+    from{\n
+        background-position-y: var(--image-now-position);\n
+    }\n
+    to{\n
+        background-position-y: 100vh;\n
+    }\n
 }\n`;
   fontStyle.innerHTML = fontStyleString;
   let headIntervalId = setInterval(() => {
