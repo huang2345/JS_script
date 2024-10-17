@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         优化B站效果
 // @namespace    http://tampermonkey.net/
-// @version      2.2
+// @version      2.2.1
 // @description  优化B站动态页效果
 // @author       O.k
 // @license      MIT
@@ -38,6 +38,7 @@
     ".bili-dyn-version-control__reminding",
     ".right",
     ".bili-dyn-version-control__btn",
+    "aside.left > section",
   ];
   delDOMNode(delArray);
 
