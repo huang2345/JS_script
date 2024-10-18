@@ -72,7 +72,7 @@
 }\n`;
   let cssAnime = `@keyframes imageUp{\n
     from{\n
-        background-position-y: var(--image-now-position);\n
+        background-position-y: var(--image-now-position-y);\n
     }\n
     to{\n
         background-position-y: 0px\n
@@ -80,10 +80,10 @@
 }\n
 @keyframes imageDown{\n
     from{\n
-        background-position-y: var(--image-now-position);\n
+        background-position-y: var(--image-now-position-y);\n
     }\n
     to{\n
-        background-position-y: 100vh;\n
+        background-position-y: calc(var(--image-overflow-height) - var(--image-now-position-y));\n
     }\n
 }\n`;
   fontStyle.innerHTML = fontStyleString;

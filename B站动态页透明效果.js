@@ -43,14 +43,55 @@
   //
   let bg_url =
     "https://raw.githubusercontent.com/huang2345/JS_script/master/test.jpg";
+  let bg = new Image();
+  bg.src = bg_url;
+  let style = document.createElement("style");
+  let overflowHeight = 0;
+  let imageOverflowStyleString;
+  document.head.appendChild(style);
+  //为bg添加style以及设置属性
+  {
+    bg.style.setProperty("position", "fixed");
+    bg.style.setProperty("top", "0");
+    bg.style.setProperty("left", "0");
+    bg.style.setProperty("width", "100%");
+    bg.style.setProperty("z-index", "-1");
+  }
+
   let bg_id = window.setInterval(() => {
-    let bg = document.querySelector(".bg");
-    console.log(bg);
-    if (bg != null) {
-      bg.style.setProperty("background-image", `url(${bg_url})`);
-      //覆盖B站设置的opacity
-      bg.style.setProperty("opacity", "1");
-      window.clearInterval(bg_id);
+    let body = document.body;
+    let del_bg = document.querySelector("div#app > div.bg");
+    if (del_bg != null) del_bg.remove();
+    if (body != null) {
+      body.appendChild(bg);
+      //假定body加载完成时bg加载完成
+      if (bg.complete && bg.offsetHeight > 0 && bg.offsetWidth > 0) {
+        let elementWidth = bg.offsetWidth;
+        let elementHeight = bg.offsetHeight;
+        console.log("元素宽度: " + elementWidth + "px");
+        console.log("元素高度: " + elementHeight + "px");
+
+        let backgroundWidth = bg.naturalWidth;
+        let backgroundHeight = bg.naturalHeight;
+        console.log("图片宽度: " + backgroundWidth + "px");
+        console.log("图片高度: " + backgroundHeight + "px");
+
+        let innerWidth = window.innerWidth;
+        let innerHight = window.innerHeight;
+        console.log("窗口宽度: " + innerWidth + "px");
+        console.log("窗口高度: " + innerHight + "px");
+        // 计算溢出尺寸
+        let overflowWidth = elementWidth - innerWidth;
+        overflowHeight = elementHeight - innerHight;
+
+        console.log("溢出宽度: " + overflowWidth + "px");
+        console.log("溢出高度: " + overflowHeight + "px");
+        imageOverflowStyleString = `:root{\n
+            --image-overflow-height:${overflowHeight}px;\n
+        `;
+        style.innerHTML = imageOverflowStyleString + `}`;
+        window.clearInterval(bg_id);
+      }
     }
   }, 100);
 
@@ -66,23 +107,24 @@
   }, 100);
   //为背景图片的上下移动提供服务
   {
-    let button_1 = document.createElement("div");
-    {
-      button_1.style.setProperty("position", "fixed");
-      button_1.style.setProperty("width", "100vh");
-      button_1.style.setProperty("height", "20vh");
-      button_1.style.setProperty("opecity", "1");
-      button_1.style.setProperty("z-index", "100");
-    }
-    let button_2 = button_1.cloneNode(true);
-    {
-      button_1.style.setProperty("top", "0");
-      button_2.style.setProperty("top", "80vh");
-    }
-    document.body.appendChild(button_1);
-    document.body.appendChild(button_2);
-    //添加事件
-    button_1.addEventListener("mouseover", () => {});
+    let bg_now_y = 0;
+    document.body.addEventListener("mousemove", (e) => {
+      let mousemove_y = e.clientY;
+      let splitLine = window.innerHeight / 2;
+      if (mousemove_y < splitLine) {
+        bg.style.setProperty("animation-name", "imageUp");
+        bg.style.setProperty("animation-iteration-count", "1");
+        bg.style.setProperty("animation-play-state", "running");
+        bg.style.setProperty("animation-fill-mode", "forwards");
+        //时间=路程/速度(100px/s)
+        let time = (overflowHeight - bg_now_y) / 100;
+        bg.style.setProperty("animation-duration", time + "s");
+      } else {
+        bg.style.setProperty("animation-name", "imageDown");
+        let time = (overflowHeight - bg_now_y) / 100;
+        bg.style.setProperty("animation-duration", time + "s");
+      }
+    });
   }
 
   getAndSetBackgroundColor("aside.left div.bili-dyn-live-users");
