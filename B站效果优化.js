@@ -86,7 +86,7 @@
         background-position-y: calc(var(--image-overflow-height) - var(--image-now-position-y));\n
     }\n
 }\n`;
-  fontStyle.innerHTML = fontStyleString;
+  fontStyle.innerHTML = fontStyleString + cssAnime;
   let headIntervalId = setInterval(() => {
     let head = document.head;
     if (head) {
