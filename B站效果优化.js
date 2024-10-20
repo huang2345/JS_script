@@ -44,9 +44,11 @@
 
   // 调整main区（主内容区）的宽度，由于暂时不太懂怎么引用vue，所以先这样写
   let MainintervalId = setInterval(() => {
-    let main = document.getElementsByTagName("main")[0];
-    if (main) {
-      main.style.width = window.innerWidth * 0.7 + "px";
+    let main = document.querySelector("div#app main");
+    let asideLeft = document.querySelector("div#app aside.left");
+    if (main && asideLeft) {
+      main.style.setProperty("flex", "10 1");
+      asideLeft.style.setProperty("flex", "1 10");
       clearInterval(MainintervalId);
     }
   });
