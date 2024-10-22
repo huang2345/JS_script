@@ -344,17 +344,7 @@
             setBackgroundImgMove();
         }
     };
-    // let bg_id = window.setInterval(() => {
-    //     let body = document.body;
-    //     let del_bg = document.querySelector("div#app > div.bg");
-    //     if (del_bg != null) del_bg.remove();
-    //     if (body != null) {
-    //         body.appendChild(bg);
-    //         getOverflowHeight();
-    //         setBackgroundImgMove();
-    //         window.clearInterval(bg_id);
-    //     }
-    // }, 100);
+
     //设置背景图片随着鼠标移动而移动
     function setBackgroundImgMove() {
         let event = (e) => {
