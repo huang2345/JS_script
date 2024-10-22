@@ -290,10 +290,12 @@
         }, 100);
     }
     //计算图片的溢出尺寸
+    let overflowHeight = 0;
+    let elementHeight = 0;
     function getOverflowHeight() {
         if (bg.complete && bg.offsetHeight > 0 && bg.offsetWidth > 0) {
             let elementWidth = bg.offsetWidth;
-            let elementHeight = bg.offsetHeight;
+            elementHeight = bg.offsetHeight;
             console.log("元素宽度: " + elementWidth + "px");
             console.log("元素高度: " + elementHeight + "px");
 
@@ -312,18 +314,17 @@
 
             console.log("溢出宽度: " + overflowWidth + "px");
             console.log("溢出高度: " + overflowHeight + "px");
-            bg_now_y = 0;
-            window.clearInterval(bg_id);
         }
     }
     //
     //
     //
     //
-    let bg_url = "https://192.168.0.100:10000/ghs/1.jpg";
+    let n = Math.floor(60 * Math.random()) + 1;
+    let bg_url = `https://192.168.0.100:10000/ghs/${n}.jpg`;
+
     var bg = new Image();
     bg.src = bg_url;
-    var overflowHeight = 0;
     //为bg添加style以及设置属性
     {
         bg.style.setProperty("position", "fixed");
@@ -333,15 +334,38 @@
         bg.style.setProperty("z-index", "-1");
     }
 
-    var bg_id = window.setInterval(() => {
+    bg.onload = () => {
         let body = document.body;
         let del_bg = document.querySelector("div#app > div.bg");
         if (del_bg != null) del_bg.remove();
         if (body != null) {
             body.appendChild(bg);
             getOverflowHeight();
+            setBackgroundImgMove();
         }
-    }, 100);
+    };
+    // let bg_id = window.setInterval(() => {
+    //     let body = document.body;
+    //     let del_bg = document.querySelector("div#app > div.bg");
+    //     if (del_bg != null) del_bg.remove();
+    //     if (body != null) {
+    //         body.appendChild(bg);
+    //         getOverflowHeight();
+    //         setBackgroundImgMove();
+    //         window.clearInterval(bg_id);
+    //     }
+    // }, 100);
+    //设置背景图片随着鼠标移动而移动
+    function setBackgroundImgMove() {
+        let event = (e) => {
+            let now_y = e.clientY;
+            let moveValue = (overflowHeight / window.innerHeight) * now_y;
+            bg.style.setProperty("top", -moveValue + "px");
+        };
+        //该方法需要在窗口调整时重新调用，所以在这里尝试删除之前的事件监听器
+        document.body.removeEventListener("mousemove", event);
+        document.body.addEventListener("mousemove", event);
+    }
     //窗口大小改变时重新计算溢出尺寸
     let resizeTimer;
     //定时器防抖
@@ -350,6 +374,7 @@
         resizeTimer = setTimeout(() => {
             getOverflowHeight();
             bg.style.setProperty("top", "0");
+            setBackgroundImgMove();
         }, 300);
     });
 
@@ -393,53 +418,6 @@
             window.clearInterval(clearDivStyle);
         }
     }, 1000);
-    //为背景图片的上下移动提供服务
-    var bg_now_y = 0;
-    {
-        bg.style.setProperty("transition-property", "top");
-        let animeID;
-        let animeRunning = false;
-        function move_bg(e) {
-            let mousemove_y = e.clientY;
-            let splitLine = window.innerHeight / 2;
-            let speed = Math.round(overflowHeight / 100);
-            if (overflowHeight > 0) {
-                if (mousemove_y < splitLine) {
-                    //时间=路程/速度(100px/s)
-                    let time = 1 / 100;
-                    bg_now_y += speed;
-                    if (bg_now_y > 0) {
-                        bg_now_y = 0;
-                    }
-                    bg.style.setProperty("top", bg_now_y + "px");
-                    bg.style.setProperty("transition-duration", time + "s");
-                } else {
-                    let time = 1 / 100;
-                    bg_now_y -= speed;
-                    if (bg_now_y < -overflowHeight) {
-                        bg_now_y = -overflowHeight;
-                    }
-                    bg.style.setProperty("top", bg_now_y + "px");
-                    bg.style.setProperty("transition-duration", time + "s");
-                }
-                animeID = window.requestAnimationFrame(() => {
-                    move_bg(e);
-                });
-            }
-        }
-        document.body.addEventListener("mouseover", (e) => {
-            if (!animeRunning) {
-                animeID = window.requestAnimationFrame(() => {
-                    move_bg(e);
-                });
-                animeRunning = true;
-            }
-        });
-        document.body.addEventListener("mouseout", (e) => {
-            window.cancelAnimationFrame(animeID);
-            animeRunning = false;
-        });
-    }
     //设置查看UP动态那一栏
     {
         let all;
